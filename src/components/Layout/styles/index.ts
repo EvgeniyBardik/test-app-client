@@ -16,7 +16,7 @@ const useStyles = makeStyles()((theme) => ({
     flexGrow: 1,
   },
   main: {
-    minHeight: "80vh",
+    minHeight: "75vh",
   },
   footer: {
     marginLeft: 24,

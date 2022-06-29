@@ -15,14 +15,29 @@ import PeopleIcon from "@mui/icons-material/People";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { AppBar, Drawer } from "./AppBar";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, Outlet } from "react-router-dom";
 import { useSnackBarError } from "../../hooks/useSnackBarError";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-function Layout({ children }: LayoutProps) {
+const useGetAPageName = () => {
+  const { pathname } = useLocation();
+  return React.useMemo(() => {
+    if (pathname === "/main") {
+      return "Companies";
+    }
+    if (pathname === "/profile") {
+      return "Profiles";
+    }
+    if (pathname.startsWith("/company")) {
+      return "Company Detail";
+    }
+  }, [pathname]);
+};
+
+function Layout() {
   const { pathname } = useLocation();
   const [logout, { isError, error }] = api.useLogoutUserMutation();
   const closeSnack = useSnackBarError(isError, error);
@@ -30,7 +45,7 @@ function Layout({ children }: LayoutProps) {
     closeSnack();
     logout("");
   };
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const { classes } = useStyles();
   const toggleDrawer = () => {
     setOpen(!open);
@@ -62,7 +77,7 @@ function Layout({ children }: LayoutProps) {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            {"/main" === pathname ? "Companies" : "Profile"}
+            {useGetAPageName()}
           </Typography>
           <Button
             onClick={logoutHandler}
@@ -137,7 +152,7 @@ function Layout({ children }: LayoutProps) {
           }}
         >
           <Grid container spacing={3} className={classes.main}>
-            {children}
+            <Outlet />
           </Grid>
           <footer className={classes.footer}>
             <Typography>Test App</Typography>

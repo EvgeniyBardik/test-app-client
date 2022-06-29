@@ -1,7 +1,14 @@
 import * as React from "react";
 import Modal from "@mui/material/Modal";
 import { Container, Typography, Button, Box, Stack } from "@mui/material";
-import { Formik, FormikHelpers, FormikProps, Form, Field } from "formik";
+import {
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  Form,
+  Field,
+  useFormik,
+} from "formik";
 import { FormTextField } from "../FormTextField";
 import validationSchema from "./validation/validationSchema";
 import IFormValues from "./interface/form.interface";
@@ -9,6 +16,7 @@ import { style } from "./styles";
 import { useSnackBarError } from "../../hooks/useSnackBarError";
 import { api } from "../../redux/UserService";
 import { CompanyRes } from "../../redux/interfaces/redux.interfaces";
+import { useFormState } from "react-hook-form";
 
 interface IModalCompany {
   edit?: boolean;

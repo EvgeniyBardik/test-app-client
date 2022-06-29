@@ -7,6 +7,8 @@ import Main from "../components/pages/Main";
 import { PrivateRoute } from "../guards/PrivateRoute";
 import { ROLE } from "../redux/interfaces/redux.interfaces";
 import Profile from "../components/pages/Profile";
+import Layout from "../components/Layout";
+import Company from "../components/pages/Company";
 
 const Root = () => {
   const { isLoading } = api.useCheckAuthQuery("");
@@ -17,18 +19,32 @@ const Root = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/main" />} />
-        <Route
-          path="main"
-          element={
-            <PrivateRoute roles={[ROLE.ADMIN, ROLE.USER]} component={Main} />
-          }
-        />
-        <Route
-          path="profile"
-          element={
-            <PrivateRoute roles={[ROLE.ADMIN, ROLE.USER]} component={Profile} />
-          }
-        />
+        <Route path="/" element={<Layout />}>
+          <Route
+            path="main"
+            element={
+              <PrivateRoute roles={[ROLE.ADMIN, ROLE.USER]} component={Main} />
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <PrivateRoute
+                roles={[ROLE.ADMIN, ROLE.USER]}
+                component={Profile}
+              />
+            }
+          />
+          <Route
+            path="company/:id"
+            element={
+              <PrivateRoute
+                roles={[ROLE.ADMIN, ROLE.USER]}
+                component={Company}
+              />
+            }
+          />
+        </Route>
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         {/* <Route

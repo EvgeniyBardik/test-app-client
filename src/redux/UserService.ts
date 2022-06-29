@@ -100,6 +100,13 @@ export const api = createApi({
       }),
       invalidatesTags: ["Companies"],
     }),
+    getCompany: build.query<CompanyRes, number>({
+      query: (id) => ({
+        url: `companies/${id}`,
+        method: "GET",
+      }),
+      providesTags: (result) => ["Companies"],
+    }),
     editCompany: build.mutation<User, EditCompanyReq>({
       query: (params) => ({
         url: `companies/${params.id}`,
