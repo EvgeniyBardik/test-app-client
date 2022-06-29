@@ -5,7 +5,7 @@ const validationSchema = yup.object().shape({
   description: yup.string().required("Required"),
   serviceOfActivity: yup.string().required("Required"),
   type: yup.string().required("Required"),
-  numberOfEmployees: yup.number().required("Required"),
+  numberOfEmployees: yup.number().max(2147483647).required("Required"),
 });
 
 export default validationSchema;

@@ -10,17 +10,12 @@ import {
   Typography,
   CircularProgress,
 } from "@mui/material";
-import { CompanyRes } from "../../../redux/interfaces/redux.interfaces";
 import { api } from "../../../redux/UserService";
 import ModalCompany from "../../ModalCompany";
 import { useSnackBarError } from "../../../hooks/useSnackBarError";
 import { useParams, useNavigate } from "react-router-dom";
 import NotFound from "../NotFound";
 import { Grid } from "@mui/material";
-
-interface ICompany {
-  company: CompanyRes;
-}
 
 export default function Company() {
   const navigate = useNavigate();
@@ -32,10 +27,11 @@ export default function Company() {
   );
   const [deleteCompany, { isError, error, isSuccess }] =
     api.useDeleteCompanyMutation();
+
+  useSnackBarError(isError, error);
   if (isSuccess) {
     navigate("/main");
   }
-  useSnackBarError(isError, error);
   if (isLoadingGet) {
     return (
       <Grid item xs={12}>
