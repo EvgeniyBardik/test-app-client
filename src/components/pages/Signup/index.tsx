@@ -10,7 +10,7 @@ import { api } from "../../../redux/UserService";
 import { selectIsAuthenticated } from "../../../redux/userSlice";
 import { useSnackBarError } from "../../../hooks/useSnackBarError";
 
-export default function Register() {
+export default function Signup() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { classes } = useStyles();
   const [signup, { isError, error }] = api.useSignUpUserMutation();
@@ -33,15 +33,15 @@ export default function Register() {
       <Box border={1} borderColor="gray" borderRadius={2} marginTop={5}>
         <Formik
           initialValues={{
-            firstName: "ff",
-            lastName: "r",
-            nickName: "e",
-            email: "g@test.com",
-            position: "wtr",
-            description: "er",
-            phoneNumber: "4342",
-            password: "123456",
-            confirmPassword: "123456",
+            firstName: "",
+            lastName: "",
+            nickName: "",
+            email: "",
+            position: "",
+            description: "",
+            phoneNumber: "",
+            password: "",
+            confirmPassword: "",
           }}
           validationSchema={validationSchema}
           onSubmit={submitHandler}
@@ -144,7 +144,7 @@ export default function Register() {
                     color="primary"
                     disabled={formikProps.isSubmitting}
                   >
-                    Registration
+                    Sign Up
                   </Button>
                 </Box>
               </Stack>

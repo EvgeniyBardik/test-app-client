@@ -11,11 +11,11 @@ import {
   CompanyReq,
   CompanyRes,
   EditCompanyReq,
-  EditUserReq,
   UserReq,
-} from "./userSlice";
+  QueryReqSortCompany,
+} from "./interfaces/redux.interfaces";
 import { RootState } from "./store";
-import IFormValues from "../components/pages/Registrer/interface/form.interface";
+import IFormValues from "../components/pages/Signup/interface/form.interface";
 
 interface CustomError {
   data: { statusCode: number; message: string; error: string };
@@ -82,10 +82,14 @@ export const api = createApi({
       }),
       invalidatesTags: ["User"],
     }),
-    getCompanies: build.query<CompanyRes[], string>({
-      query: () => ({
-        url: "companies",
+    getCompanies: build.query<CompanyRes[], QueryReqSortCompany>({
+      query: (query) => ({
+        url: `companies`,
         method: "GET",
+        params: {
+          sort: query.sort,
+          order: query.order,
+        },
       }),
       providesTags: (result) => ["Companies"],
     }),

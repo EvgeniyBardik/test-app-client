@@ -1,11 +1,8 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import AccessDenied from "../components/pages/AccessDenied";
-import {
-  selectCurrentUser,
-  selectIsAuthenticated,
-  ROLE,
-} from "../redux/userSlice";
+import { ROLE } from "../redux/interfaces/redux.interfaces";
+import { selectCurrentUser, selectIsAuthenticated } from "../redux/userSlice";
 
 interface Props {
   component: React.ComponentType;

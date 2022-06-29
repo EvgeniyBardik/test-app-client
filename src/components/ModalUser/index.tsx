@@ -8,7 +8,7 @@ import IFormValues from "./interface/form.interface";
 import { style } from "./styles";
 import { useSnackBarError } from "../../hooks/useSnackBarError";
 import { api } from "../../redux/UserService";
-import { User } from "../../redux/userSlice";
+import { User } from "../../redux/interfaces/redux.interfaces";
 
 interface IModalUser {
   open: boolean;

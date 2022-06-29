@@ -96,7 +96,7 @@ export default function Login() {
         >
           Don&apos;t have an account? &nbsp;
           <Link className={classes.link} component={RouterLink} to={"/signup"}>
-            Registration
+            Sign Up
           </Link>
         </Typography>
       </Box>

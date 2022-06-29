@@ -16,6 +16,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { AppBar, Drawer } from "./AppBar";
 import { useLocation, Link } from "react-router-dom";
+import { useSnackBarError } from "../../hooks/useSnackBarError";
 
 interface LayoutProps {
   children: ReactNode;
@@ -23,8 +24,10 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   const { pathname } = useLocation();
-  const [logout] = api.useLogoutUserMutation();
+  const [logout, { isError, error }] = api.useLogoutUserMutation();
+  const closeSnack = useSnackBarError(isError, error);
   const logoutHandler = () => {
+    closeSnack();
     logout("");
   };
   const [open, setOpen] = React.useState(true);
@@ -59,7 +62,7 @@ function Layout({ children }: LayoutProps) {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Dashboard
+            {"/main" === pathname ? "Companies" : "Profile"}
           </Typography>
           <Button
             onClick={logoutHandler}
