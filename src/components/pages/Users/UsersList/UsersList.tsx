@@ -12,8 +12,6 @@ import { visuallyHidden } from "@mui/utils";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
-  User,
-  UserRes,
   HeadCell,
   EnhancedTableProps,
   IEnhancedTable,

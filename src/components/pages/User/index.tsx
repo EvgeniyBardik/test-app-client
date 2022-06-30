@@ -16,22 +16,33 @@ import ModalUser from "../../ModalUser";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import NotFound from "../NotFound";
+import { selectCurrentUser } from "../../../redux/userSlice";
+import { useSelector } from "react-redux";
 
 function User() {
+  const currentUser = useSelector(selectCurrentUser);
   const [skipFetching, setSkipFetching] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
   const { id } = params;
+  const [logoutAndDelete, { isError: isErrorLogout, error: errorLogout }] =
+    api.useLogoutAndDeleteUserMutation();
   const [deleteUser, { isError, error }] = api.useDeleteUserMutation();
   const { data: user, isLoading: isLoadingGet } = api.useGetUserQuery(id!, {
     skip: skipFetching,
   });
-  console.log(user);
   const [openModalEditUser, setOpenModalEditUser] = useState(false);
   const fullName = user?.firstName + " " + user?.lastName;
+  useSnackBarError(isErrorLogout, errorLogout);
   useSnackBarError(isError, error);
   const removeUserHandler = async (id: string) => {
     setSkipFetching(true);
+    if (currentUser?.role === "ADMIN" && currentUser.id === +id) {
+      const logoutResponse = logoutAndDelete(+id);
+      if ("data" in logoutResponse) {
+        navigate("/singin");
+      }
+    }
     const response = await deleteUser(id);
     if ("data" in response) {
       navigate("/users");

@@ -22,9 +22,6 @@ const slice = createSlice({
       state.isAuthenticated = false;
       Cookies.remove("token");
     },
-    // setAuthenticated: (state) => {
-    //   state.isAuthenticated = true;
-    // },
   },
   extraReducers: (builder) => {
     builder
@@ -78,6 +75,7 @@ const slice = createSlice({
 });
 
 export const { logout } = slice.actions;
+
 export default slice.reducer;
 
 export const selectCurrentUser = (state: RootState) => state.auth.user;

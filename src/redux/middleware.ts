@@ -1,7 +1,7 @@
 import { isRejectedWithValue, Middleware } from "@reduxjs/toolkit";
 import { logout } from "./userSlice";
 
-const rtkQueryErrorLogger: Middleware = (api) => (next) => (action) => {
+const rtkQueryErrorLogout: Middleware = (api) => (next) => (action) => {
   if (isRejectedWithValue(action)) {
     if (action.payload.status === 401) {
       next(logout());
@@ -9,4 +9,4 @@ const rtkQueryErrorLogger: Middleware = (api) => (next) => (action) => {
   }
   return next(action);
 };
-export default rtkQueryErrorLogger;
+export default rtkQueryErrorLogout;

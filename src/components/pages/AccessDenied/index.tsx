@@ -7,7 +7,7 @@ const AccessDenied = () => {
     <Container maxWidth={"xs"}>
       <Grid container justifyContent={"center"} alignItems={"center"}>
         <Grid item>
-          <Typography variant="h1">Page not found...</Typography>
+          <Typography variant="h1">Access denied...</Typography>
           <Grid item>
             <Typography variant="body1">
               <Link component={RouterLink} to={"/login"}>

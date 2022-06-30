@@ -11,6 +11,7 @@ export interface LoginRequest {
   email: string;
   password: string;
 }
+
 export type AuthState = {
   user: User | null;
   token: string | null;
@@ -18,6 +19,7 @@ export type AuthState = {
   isLoading: boolean;
   error: string;
 };
+
 export interface User {
   id: number;
   email: string;
@@ -31,6 +33,7 @@ export interface User {
   logoutTime?: number;
   role: ROLE;
 }
+
 export interface UserReq {
   id: number;
   email: string;
@@ -41,6 +44,7 @@ export interface UserReq {
   firstName: string;
   lastName: string;
 }
+
 export interface CompanyReq {
   name: string;
   address: string;
@@ -49,6 +53,7 @@ export interface CompanyReq {
   type: string;
   description: string;
 }
+
 export interface CompanyRes {
   id: number;
   name: string;

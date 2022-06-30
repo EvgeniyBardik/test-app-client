@@ -2,7 +2,7 @@ import { api } from "../../../redux/UserService";
 import { useSnackBarError } from "../../../hooks/useSnackBarError";
 import { Box, Button, CircularProgress, Grid } from "@mui/material";
 import ModalCompany from "../../ModalCompany";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Order } from "./types/order-company.types";
 import { CompaniesList } from "./CompaniesList/CompaniesList";
 
