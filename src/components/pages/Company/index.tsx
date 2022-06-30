@@ -18,21 +18,29 @@ import NotFound from "../NotFound";
 import { Grid } from "@mui/material";
 
 export default function Company() {
+  const [skipFetching, setSkipFetching] = React.useState(false);
   const navigate = useNavigate();
   const params = useParams();
   const { id } = params;
   const [openModalEditCompany, setOpenModalEditCompany] = React.useState(false);
   const { data: company, isLoading: isLoadingGet } = api.useGetCompanyQuery(
-    +id!
+    +id!,
+    { skip: skipFetching }
   );
-  const [deleteCompany, { isError, error, isSuccess }] =
-    api.useDeleteCompanyMutation();
-
+  const [deleteCompany, { isError, error }] = api.useDeleteCompanyMutation();
   useSnackBarError(isError, error);
-  if (isSuccess) {
-    navigate("/main");
-  }
-  if (isLoadingGet) {
+
+  const deleteHandler = async () => {
+    setSkipFetching(true);
+    const response = await deleteCompany(+id!);
+    if ("data" in response) {
+      navigate("/main");
+    } else {
+      setSkipFetching(false);
+    }
+  };
+
+  if (isLoadingGet || skipFetching) {
     return (
       <Grid item xs={12}>
         <Box display="flex" justifyContent="center" mt={5} width="100%">
@@ -120,7 +128,7 @@ export default function Company() {
           <Box marginLeft={1}>
             <Button
               sx={{ width: 80 }}
-              onClick={() => deleteCompany(company.id)}
+              onClick={deleteHandler}
               variant="contained"
               color="error"
             >

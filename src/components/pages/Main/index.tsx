@@ -2,27 +2,17 @@ import { api } from "../../../redux/UserService";
 import { useSnackBarError } from "../../../hooks/useSnackBarError";
 import { Box, Button, CircularProgress, Grid } from "@mui/material";
 import ModalCompany from "../../ModalCompany";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Order } from "./types/order-company.types";
 import { CompaniesList } from "./CompaniesList";
 
 function Main() {
   const [order, setOrder] = useState<Order>("asc");
-  const [orderBy, setOrderBy] = useState<string>("newest");
+  const [orderBy, setOrderBy] = useState<string>("name");
   const makeQuery = (orderBy: string, order: string) => {
     const orderQuery = order.toUpperCase();
-    const getKey = (orderBy: string) => {
-      if (orderBy === "service") {
-        return "serviceOfActivity";
-      }
-      if (orderBy === "newest") {
-        return "updatedAt";
-      }
-      return orderBy;
-    };
-    return { sort: getKey(orderBy), order: orderQuery };
+    return { sort: orderBy, order: orderQuery };
   };
-
   const [openModalEditCompany, setOpenModalEditCompany] = useState(false);
   const {
     data: companies,

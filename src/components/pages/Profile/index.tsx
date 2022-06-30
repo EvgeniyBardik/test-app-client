@@ -1,4 +1,3 @@
-import Layout from "../../Layout";
 import { api } from "../../../redux/UserService";
 import { useSnackBarError } from "../../../hooks/useSnackBarError";
 import {
@@ -15,19 +14,17 @@ import {
 } from "@mui/material";
 import ModalUser from "../../ModalUser";
 import { useState } from "react";
-import { selectCurrentUser } from "../../../redux/userSlice";
-import { useAppSelector } from "../../../hooks/redux";
 
 function Profile() {
   const [logoutAndDelete, { isError, error }] =
     api.useLogoutAndDeleteUserMutation();
-  const { data: user, isLoading } = api.useProfileQuery("");
+  const { data: user } = api.useProfileQuery("");
   const [openModalEditUser, setOpenModalEditUser] = useState(false);
   const fullName = user?.firstName + " " + user?.lastName;
   const closeSnakbarError = useSnackBarError(isError, error);
   const removeProfileHandler = async (id: number) => {
     closeSnakbarError();
-    const result = await logoutAndDelete(id);
+    await logoutAndDelete(id);
   };
   console.log(user);
   if (!user) {

@@ -47,12 +47,6 @@ const Root = () => {
         </Route>
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
-        {/* <Route
-          path="users"
-          element={
-            <PrivateRoute roles={[ROLE.ADMIN, ROLE.USER]} component={Users} />
-          }
-        /> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

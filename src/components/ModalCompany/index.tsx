@@ -1,14 +1,14 @@
 import * as React from "react";
 import Modal from "@mui/material/Modal";
-import { Container, Typography, Button, Box, Stack } from "@mui/material";
 import {
-  Formik,
-  FormikHelpers,
-  FormikProps,
-  Form,
-  Field,
-  useFormik,
-} from "formik";
+  Container,
+  Typography,
+  Button,
+  Box,
+  Stack,
+  FormControl,
+} from "@mui/material";
+import { Formik, FormikHelpers, FormikProps, Form, Field } from "formik";
 import { FormTextField } from "../FormTextField";
 import validationSchema from "./validation/validationSchema";
 import IFormValues from "./interface/form.interface";
@@ -16,7 +16,6 @@ import { style } from "./styles";
 import { useSnackBarError } from "../../hooks/useSnackBarError";
 import { api } from "../../redux/UserService";
 import { CompanyRes } from "../../redux/interfaces/redux.interfaces";
-import { useFormState } from "react-hook-form";
 
 interface IModalCompany {
   edit?: boolean;
@@ -37,6 +36,11 @@ export default function ModalCompany({
   const closeSnack = useSnackBarError(isError, error);
   const closeSnackEdit = useSnackBarError(isErrorEdit, errorEdit);
   const handleClose = () => setOpen(false);
+  const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!e.code.startsWith("Digit")) {
+      e.preventDefault();
+    }
+  };
   const submitHandler = async (
     values: IFormValues,
     formikHelpers: FormikHelpers<IFormValues>
@@ -152,6 +156,7 @@ export default function ModalCompany({
                           size="small"
                           type="number"
                           component={FormTextField}
+                          onKeyPress={onKeyPressHandler}
                         />
                       </Box>
                       <Box display="flex" justifyContent="space-between">

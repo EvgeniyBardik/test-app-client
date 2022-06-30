@@ -5,7 +5,6 @@ import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
 import useStyles from "./styles";
 import { Box, Typography, Grid, Divider, List, Button } from "@mui/material";
-import { ReactNode } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { api } from "../../redux/UserService";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -18,10 +17,6 @@ import { AppBar, Drawer } from "./AppBar";
 import { useLocation, Link, Outlet } from "react-router-dom";
 import { useSnackBarError } from "../../hooks/useSnackBarError";
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
 const useGetAPageName = () => {
   const { pathname } = useLocation();
   return React.useMemo(() => {
@@ -29,7 +24,7 @@ const useGetAPageName = () => {
       return "Companies";
     }
     if (pathname === "/profile") {
-      return "Profiles";
+      return "Profile";
     }
     if (pathname.startsWith("/company")) {
       return "Company Detail";
