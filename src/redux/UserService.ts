@@ -12,7 +12,7 @@ import {
   CompanyRes,
   EditCompanyReq,
   UserReq,
-  QueryReqSortCompany,
+  QueryReqSort,
 } from "./interfaces/redux.interfaces";
 import { RootState } from "./store";
 import IFormValues from "../components/pages/Signup/interface/form.interface";
@@ -33,13 +33,13 @@ export const api = createApi({
       return headers;
     },
   }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
-  tagTypes: ["Companies", "User"],
+  tagTypes: ["Companies", "Users"],
   endpoints: (build) => ({
     profile: build.query<User, string>({
       query: () => ({
         url: "users/profile",
       }),
-      providesTags: (result) => ["User"],
+      providesTags: (result) => ["Users"],
     }),
     checkAuth: build.query<User, string>({
       query: () => ({
@@ -52,6 +52,7 @@ export const api = createApi({
         method: "POST",
         body: userLoginData,
       }),
+      invalidatesTags: ["Companies", "Users"],
     }),
     signUpUser: build.mutation<UserResponse, IFormValues>({
       query: (userSignUpData) => ({
@@ -59,20 +60,21 @@ export const api = createApi({
         method: "POST",
         body: userSignUpData,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["Users", "Companies"],
     }),
     logoutUser: build.mutation<User, string>({
       query: () => ({
         url: "auth/logout",
         method: "GET",
       }),
+      invalidatesTags: ["Users", "Companies"],
     }),
     logoutAndDeleteUser: build.mutation<User, number>({
       query: (id) => ({
         url: `users/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["Users", "Companies"],
     }),
     editUser: build.mutation<User, UserReq>({
       query: (userEditData) => ({
@@ -80,9 +82,9 @@ export const api = createApi({
         method: "PATCH",
         body: userEditData,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["Users"],
     }),
-    getCompanies: build.query<CompanyRes[], QueryReqSortCompany>({
+    getCompanies: build.query<CompanyRes[], QueryReqSort>({
       query: (query) => ({
         url: `companies`,
         method: "GET",
@@ -92,6 +94,31 @@ export const api = createApi({
         },
       }),
       providesTags: (result) => ["Companies"],
+    }),
+    getUsers: build.query<User[], QueryReqSort>({
+      query: (query) => ({
+        url: `users`,
+        method: "GET",
+        params: {
+          sort: query.sort,
+          order: query.order,
+        },
+      }),
+      providesTags: (result) => ["Users"],
+    }),
+    deleteUser: build.mutation<User, string>({
+      query: (id) => ({
+        url: `users/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Users", "Companies"],
+    }),
+    getUser: build.query<User, string>({
+      query: (id) => ({
+        url: `users/${id}`,
+        method: "GET",
+      }),
+      providesTags: (result) => ["Users"],
     }),
     deleteCompany: build.mutation<CompanyRes, number>({
       query: (id) => ({

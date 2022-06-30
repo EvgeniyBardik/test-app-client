@@ -14,25 +14,48 @@ import {
 } from "@mui/material";
 import ModalUser from "../../ModalUser";
 import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import NotFound from "../NotFound";
 
-function Profile() {
-  const [logoutAndDelete, { isError, error }] =
-    api.useLogoutAndDeleteUserMutation();
-  const { data: user } = api.useProfileQuery("");
+function User() {
+  const [skipFetching, setSkipFetching] = useState(false);
+  const navigate = useNavigate();
+  const params = useParams();
+  const { id } = params;
+  const [deleteUser, { isError, error }] = api.useDeleteUserMutation();
+  const { data: user, isLoading: isLoadingGet } = api.useGetUserQuery(id!, {
+    skip: skipFetching,
+  });
+  console.log(user);
   const [openModalEditUser, setOpenModalEditUser] = useState(false);
   const fullName = user?.firstName + " " + user?.lastName;
-  const closeSnakbarError = useSnackBarError(isError, error);
-  const removeProfileHandler = async (id: number) => {
-    closeSnakbarError();
-    await logoutAndDelete(id);
+  useSnackBarError(isError, error);
+  const removeUserHandler = async (id: string) => {
+    setSkipFetching(true);
+    const response = await deleteUser(id);
+    if ("data" in response) {
+      navigate("/users");
+    } else {
+      setSkipFetching(false);
+    }
   };
-  if (!user) {
+
+  if (isLoadingGet || skipFetching) {
     return (
-      <Box display="flex" justifyContent="center" mt={5} width="100%">
-        <CircularProgress />
-      </Box>
+      <Grid item xs={12}>
+        <Box display="flex" justifyContent="center" mt={5} width="100%">
+          <CircularProgress />
+        </Box>
+      </Grid>
     );
   }
+
+  if (!user)
+    return (
+      <Grid item xs={12}>
+        <NotFound />
+      </Grid>
+    );
   return (
     <>
       <Grid item xs={12}>
@@ -106,7 +129,7 @@ function Profile() {
             <Box marginLeft={1}>
               <Button
                 sx={{ width: 80 }}
-                onClick={() => removeProfileHandler(user.id)}
+                onClick={() => removeUserHandler(id!)}
                 variant="contained"
                 color="error"
               >
@@ -120,4 +143,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default User;

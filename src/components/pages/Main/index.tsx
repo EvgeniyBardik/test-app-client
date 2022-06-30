@@ -4,7 +4,7 @@ import { Box, Button, CircularProgress, Grid } from "@mui/material";
 import ModalCompany from "../../ModalCompany";
 import { useEffect, useState } from "react";
 import { Order } from "./types/order-company.types";
-import { CompaniesList } from "./CompaniesList";
+import { CompaniesList } from "./CompaniesList/CompaniesList";
 
 function Main() {
   const [order, setOrder] = useState<Order>("asc");

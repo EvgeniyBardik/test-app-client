@@ -68,7 +68,7 @@ export interface EditUserReq {
   user: User;
 }
 
-export interface QueryReqSortCompany {
+export interface QueryReqSort {
   sort: string;
   order: string;
 }

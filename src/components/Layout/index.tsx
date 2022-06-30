@@ -3,6 +3,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
+import GroupsIcon from "@mui/icons-material/Groups";
 import useStyles from "./styles";
 import { Box, Typography, Grid, Divider, List, Button } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -16,6 +17,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { AppBar, Drawer } from "./AppBar";
 import { useLocation, Link, Outlet } from "react-router-dom";
 import { useSnackBarError } from "../../hooks/useSnackBarError";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../redux/userSlice";
 
 const useGetAPageName = () => {
   const { pathname } = useLocation();
@@ -26,13 +29,20 @@ const useGetAPageName = () => {
     if (pathname === "/profile") {
       return "Profile";
     }
-    if (pathname.startsWith("/company")) {
+    if (pathname === "/users") {
+      return "Users";
+    }
+    if (/company\/\d+$/.test(pathname)) {
       return "Company Detail";
+    }
+    if (/user\/\d+$/.test(pathname)) {
+      return "User";
     }
   }, [pathname]);
 };
 
 function Layout() {
+  const user = useSelector(selectCurrentUser);
   const { pathname } = useLocation();
   const [logout, { isError, error }] = api.useLogoutUserMutation();
   const closeSnack = useSnackBarError(isError, error);
@@ -74,6 +84,9 @@ function Layout() {
           >
             {useGetAPageName()}
           </Typography>
+          {user?.role === "ADMIN" && (
+            <Typography color={"info.main"}>Admin</Typography>
+          )}
           <Button
             onClick={logoutHandler}
             variant="text"
@@ -98,13 +111,25 @@ function Layout() {
         </Toolbar>
         <Divider />
         <List component="nav">
+          {user?.role === "ADMIN" && (
+            <ListItemButton
+              component={Link}
+              to={"/users"}
+              selected={"/users" === pathname}
+            >
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Users" />
+            </ListItemButton>
+          )}
           <ListItemButton
             component={Link}
             to={"/main"}
             selected={"/main" === pathname}
           >
             <ListItemIcon>
-              <PeopleIcon />
+              <GroupsIcon />
             </ListItemIcon>
             <ListItemText primary="Companies" />
           </ListItemButton>

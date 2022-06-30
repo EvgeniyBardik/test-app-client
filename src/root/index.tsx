@@ -9,6 +9,8 @@ import { ROLE } from "../redux/interfaces/redux.interfaces";
 import Profile from "../components/pages/Profile";
 import Layout from "../components/Layout";
 import Company from "../components/pages/Company";
+import Users from "../components/pages/Users";
+import User from "../components/pages/User";
 
 const Root = () => {
   const { isLoading } = api.useCheckAuthQuery("");
@@ -43,6 +45,14 @@ const Root = () => {
                 component={Company}
               />
             }
+          />
+          <Route
+            path="users"
+            element={<PrivateRoute roles={[ROLE.ADMIN]} component={Users} />}
+          />
+          <Route
+            path="user/:id"
+            element={<PrivateRoute roles={[ROLE.ADMIN]} component={User} />}
           />
         </Route>
         <Route path="login" element={<Login />} />
