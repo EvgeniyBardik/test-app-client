@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { api } from "../../../redux/UserService";
 import { Order } from "./types/users-list.types";
-import { useSnackBarError } from "../../../hooks/useSnackBarError";
 import { Box, CircularProgress, Grid } from "@mui/material";
 import { UsersList } from "./UsersList/UsersList";
 
@@ -12,13 +11,9 @@ const Users = () => {
     const orderQuery = order.toUpperCase();
     return { sort: orderBy, order: orderQuery };
   };
-  const {
-    data: users,
-    isLoading,
-    isError,
-    error,
-  } = api.useGetUsersQuery(makeQuery(orderBy, order));
-  useSnackBarError(isError, error);
+  const { data: users, isLoading } = api.useGetUsersQuery(
+    makeQuery(orderBy, order)
+  );
   return (
     <>
       {isLoading && (

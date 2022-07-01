@@ -20,7 +20,7 @@ const Root = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/main" />} />
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/" element={<Layout />}>
           <Route
             path="main"

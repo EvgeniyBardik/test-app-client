@@ -8,18 +8,18 @@ import useStyles from "./styles";
 import { useSelector } from "react-redux";
 import { api } from "../../../redux/UserService";
 import { selectIsAuthenticated } from "../../../redux/userSlice";
-import { useSnackBarError } from "../../../hooks/useSnackBarError";
+import { useSnackbar } from "notistack";
 
 export default function Signup() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const { closeSnackbar } = useSnackbar();
   const { classes } = useStyles();
-  const [signup, { isError, error }] = api.useSignUpUserMutation();
-  const closeSnack = useSnackBarError(isError, error);
+  const [signup] = api.useSignUpUserMutation();
   const submitHandler = async (
     values: IFormValues,
     formikHelpers: FormikHelpers<IFormValues>
   ) => {
-    closeSnack();
+    closeSnackbar();
     await signup({
       ...values,
     });

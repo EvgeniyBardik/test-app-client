@@ -25,16 +25,13 @@ function User() {
   const navigate = useNavigate();
   const params = useParams();
   const { id } = params;
-  const [logoutAndDelete, { isError: isErrorLogout, error: errorLogout }] =
-    api.useLogoutAndDeleteUserMutation();
-  const [deleteUser, { isError, error }] = api.useDeleteUserMutation();
+  const [logoutAndDelete] = api.useLogoutAndDeleteUserMutation();
+  const [deleteUser] = api.useDeleteUserMutation();
   const { data: user, isLoading: isLoadingGet } = api.useGetUserQuery(id!, {
     skip: skipFetching,
   });
   const [openModalEditUser, setOpenModalEditUser] = useState(false);
   const fullName = user?.firstName + " " + user?.lastName;
-  useSnackBarError(isErrorLogout, errorLogout);
-  useSnackBarError(isError, error);
   const removeUserHandler = async (id: string) => {
     setSkipFetching(true);
     if (currentUser?.role === "ADMIN" && currentUser.id === +id) {

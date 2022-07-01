@@ -6,7 +6,6 @@ import { FormTextField } from "../FormTextField";
 import validationSchema from "./validation/validationSchema";
 import IFormValues from "./interface/form.interface";
 import { style } from "./styles";
-import { useSnackBarError } from "../../hooks/useSnackBarError";
 import { api } from "../../redux/UserService";
 import { CompanyRes } from "../../redux/interfaces/redux.interfaces";
 
@@ -23,11 +22,8 @@ export default function ModalCompany({
   setOpen,
   company,
 }: IModalCompany) {
-  const [createCompany, { isError, error }] = api.useCreateCompanyMutation();
-  const [editCompany, { isError: isErrorEdit, error: errorEdit }] =
-    api.useEditCompanyMutation();
-  const closeSnack = useSnackBarError(isError, error);
-  const closeSnackEdit = useSnackBarError(isErrorEdit, errorEdit);
+  const [createCompany] = api.useCreateCompanyMutation();
+  const [editCompany] = api.useEditCompanyMutation();
   const handleClose = () => setOpen(false);
   const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!e.code.startsWith("Digit")) {
@@ -38,8 +34,6 @@ export default function ModalCompany({
     values: IFormValues,
     formikHelpers: FormikHelpers<IFormValues>
   ) => {
-    closeSnack();
-    closeSnackEdit();
     if (edit) {
       const response = await editCompany({
         company: values,

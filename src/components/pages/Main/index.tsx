@@ -1,5 +1,4 @@
 import { api } from "../../../redux/UserService";
-import { useSnackBarError } from "../../../hooks/useSnackBarError";
 import { Box, Button, CircularProgress, Grid } from "@mui/material";
 import ModalCompany from "../../ModalCompany";
 import { useState } from "react";
@@ -14,13 +13,9 @@ function Main() {
     return { sort: orderBy, order: orderQuery };
   };
   const [openModalEditCompany, setOpenModalEditCompany] = useState(false);
-  const {
-    data: companies,
-    isLoading,
-    isError,
-    error,
-  } = api.useGetCompaniesQuery(makeQuery(orderBy, order));
-  useSnackBarError(isError, error);
+  const { data: companies, isLoading } = api.useGetCompaniesQuery(
+    makeQuery(orderBy, order)
+  );
 
   return (
     <>

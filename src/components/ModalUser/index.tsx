@@ -6,7 +6,6 @@ import { FormTextField } from "../FormTextField";
 import validationSchema from "./validation/validationSchema";
 import IFormValues from "./interface/form.interface";
 import { style } from "./styles";
-import { useSnackBarError } from "../../hooks/useSnackBarError";
 import { api } from "../../redux/UserService";
 import { User } from "../../redux/interfaces/redux.interfaces";
 
@@ -17,15 +16,12 @@ interface IModalUser {
 }
 
 export default function ModalUser({ open, setOpen, user }: IModalUser) {
-  const [editUser, { isError: isErrorEdit, error: errorEdit }] =
-    api.useEditUserMutation();
-  const closeSnackEdit = useSnackBarError(isErrorEdit, errorEdit);
+  const [editUser] = api.useEditUserMutation();
   const handleClose = () => setOpen(false);
   const submitHandler = async (
     values: IFormValues,
     formikHelpers: FormikHelpers<IFormValues>
   ) => {
-    closeSnackEdit();
     const response = await editUser({
       ...values,
       id: user.id,

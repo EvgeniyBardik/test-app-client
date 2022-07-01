@@ -14,16 +14,16 @@ import {
 } from "@mui/material";
 import ModalUser from "../../ModalUser";
 import { useState } from "react";
+import { useSnackbar } from "notistack";
 
 function Profile() {
-  const [logoutAndDelete, { isError, error }] =
-    api.useLogoutAndDeleteUserMutation();
+  const { closeSnackbar } = useSnackbar();
+  const [logoutAndDelete] = api.useLogoutAndDeleteUserMutation();
   const { data: user } = api.useProfileQuery("");
   const [openModalEditUser, setOpenModalEditUser] = useState(false);
   const fullName = user?.firstName + " " + user?.lastName;
-  const closeSnakbarError = useSnackBarError(isError, error);
   const removeProfileHandler = async (id: number) => {
-    closeSnakbarError();
+    closeSnackbar();
     await logoutAndDelete(id);
   };
   if (!user) {

@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { api } from "../../../redux/UserService";
 import ModalCompany from "../../ModalCompany";
-import { useSnackBarError } from "../../../hooks/useSnackBarError";
 import { useParams, useNavigate } from "react-router-dom";
 import NotFound from "../NotFound";
 import { Grid } from "@mui/material";
@@ -27,8 +26,7 @@ export default function Company() {
     +id!,
     { skip: skipFetching }
   );
-  const [deleteCompany, { isError, error }] = api.useDeleteCompanyMutation();
-  useSnackBarError(isError, error);
+  const [deleteCompany] = api.useDeleteCompanyMutation();
 
   const deleteHandler = async () => {
     setSkipFetching(true);

@@ -7,22 +7,22 @@ interface CustomError {
 }
 
 export const useSnackBarError = (
-  error: SerializedError | CustomError | undefined,
-  isError?: boolean
+  isError: boolean,
+  error: SerializedError | CustomError | undefined
 ) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   useEffect(() => {
-    if (error && "data" in error) {
+    if (isError && error && "data" in error) {
       enqueueSnackbar(error.data.message, {
         variant: "error",
         onClick: () => closeSnackbar(),
       });
-    } else if (error) {
+    } else if (isError && error) {
       enqueueSnackbar("Network error, try again", {
         variant: "error",
         onClick: () => closeSnackbar(),
       });
     }
-  }, [error, enqueueSnackbar, closeSnackbar]);
+  }, [isError, error, enqueueSnackbar, closeSnackbar]);
   return closeSnackbar;
 };

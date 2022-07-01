@@ -11,7 +11,10 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <SnackbarProvider anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+  <SnackbarProvider
+    maxSnack={1}
+    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+  >
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Provider store={store}>

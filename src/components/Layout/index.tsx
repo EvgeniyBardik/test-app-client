@@ -16,7 +16,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { AppBar, Drawer } from "./AppBar";
 import { useLocation, Link, Outlet } from "react-router-dom";
-import { useSnackBarError } from "../../hooks/useSnackBarError";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/userSlice";
 
@@ -44,10 +43,8 @@ const useGetAPageName = () => {
 function Layout() {
   const user = useSelector(selectCurrentUser);
   const { pathname } = useLocation();
-  const [logout, { isError, error }] = api.useLogoutUserMutation();
-  const closeSnack = useSnackBarError(isError, error);
+  const [logout] = api.useLogoutUserMutation();
   const logoutHandler = () => {
-    closeSnack();
     logout("");
   };
   const [open, setOpen] = React.useState(false);
