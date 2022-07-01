@@ -1,11 +1,9 @@
 import { createSlice, PayloadAction, SerializedError } from "@reduxjs/toolkit";
-import { SnackbarKey } from "notistack";
 import { RootState } from "./store";
 interface CustomError {
   data: { statusCode: number; message: string; error: string };
   status: number;
 }
-type CloseSnackError = (key?: SnackbarKey | undefined) => void;
 type SliceState = {
   error: SerializedError | CustomError | undefined;
 };

@@ -1,5 +1,4 @@
 import { api } from "../../../redux/UserService";
-import { useSnackBarError } from "../../../hooks/useSnackBarError";
 import {
   Box,
   Button,
