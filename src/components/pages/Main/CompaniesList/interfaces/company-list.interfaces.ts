@@ -6,6 +6,7 @@ export interface Data {
   numberOfEmployees: number;
   type: string;
   description: string;
+  ownerEmail?: string;
 }
 
 export interface HeadCell {

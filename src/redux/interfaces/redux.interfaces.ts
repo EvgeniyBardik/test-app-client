@@ -63,6 +63,7 @@ export interface CompanyRes {
   type: string;
   description: string;
   userId: number;
+  ownerEmail?: string;
 }
 export interface EditCompanyReq {
   id: number;

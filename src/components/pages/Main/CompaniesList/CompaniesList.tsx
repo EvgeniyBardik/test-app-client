@@ -15,6 +15,8 @@ import {
   EnhancedTableProps,
   IEnhancedTable,
 } from "./interfaces/company-list.interfaces";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../../redux/userSlice";
 
 const headCells: readonly HeadCell[] = [
   {
@@ -49,7 +51,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     (property: string) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
-
+  const user = useSelector(selectCurrentUser);
   return (
     <TableHead>
       <TableRow>
@@ -72,6 +74,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
+        {user?.role === "ADMIN" && <TableCell>Owner email</TableCell>}
       </TableRow>
     </TableHead>
   );
@@ -132,6 +135,9 @@ export function CompaniesList({
                   <TableCell>{company.type}</TableCell>
                   <TableCell>{company.description}</TableCell>
                   <TableCell>{company.numberOfEmployees}</TableCell>
+                  {company.ownerEmail && (
+                    <TableCell>{company.ownerEmail}</TableCell>
+                  )}
                 </TableRow>
               ))}
             </TableBody>
