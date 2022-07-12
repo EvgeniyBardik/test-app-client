@@ -26,9 +26,11 @@ export default function ModalCompany({
   const [editCompany] = api.useEditCompanyMutation();
   const handleClose = () => setOpen(false);
   const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!e.code.startsWith("Digit")) {
+    if (!/\d$/.test(e.key)) {
       e.preventDefault();
     }
+
+    console.log(e);
   };
   const submitHandler = async (
     values: IFormValues,
