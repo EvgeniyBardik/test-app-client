@@ -52,6 +52,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
       onRequestSort(event, property);
     };
   const user = useSelector(selectCurrentUser);
+  const isAdmin = user?.role === "ADMIN";
   return (
     <TableHead>
       <TableRow>
@@ -74,7 +75,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             </TableSortLabel>
           </TableCell>
         ))}
-        {user?.role === "ADMIN" && <TableCell>Owner email</TableCell>}
+        {isAdmin && <TableCell>Owner email</TableCell>}
       </TableRow>
     </TableHead>
   );
@@ -95,6 +96,8 @@ export function CompaniesList({
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
+  const user = useSelector(selectCurrentUser);
+  const isAdmin = user?.role === "ADMIN";
   const navigate = useNavigate();
   const goToCompany = (id: number) => {
     navigate({
@@ -135,7 +138,7 @@ export function CompaniesList({
                   <TableCell>{company.type}</TableCell>
                   <TableCell>{company.description}</TableCell>
                   <TableCell>{company.numberOfEmployees}</TableCell>
-                  {company.ownerEmail && (
+                  {company.ownerEmail && isAdmin && (
                     <TableCell>{company.ownerEmail}</TableCell>
                   )}
                 </TableRow>
