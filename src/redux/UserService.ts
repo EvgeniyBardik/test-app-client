@@ -24,7 +24,7 @@ interface CustomError {
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://nest-postgre.herokuapp.com/",
+    baseUrl: process.env.REACT_APP_API_URL,
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
       if (token) {
